@@ -1,8 +1,11 @@
 package com.health_care.patients.service;
 
 import com.health_care.patients.dto.PatientDto;
+import com.health_care.patients.mapper.PatientMapper;
 import com.health_care.patients.model.Patient;
+import com.health_care.patients.model.PreExistingIllness;
 import com.health_care.patients.repository.PatientRepository;
+import com.health_care.patients.repository.PreExistingIllnessRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +19,26 @@ public class PatientServiceImpl implements PatientService{
     @Autowired
     private PatientRepository patientRepository;
 
-//    public toEntity(Patient patient){
-//
-//    }
+    @Autowired
+    private PreExistingIllnessRepo preExistingIllnessRepo;
+
+    @Autowired
+    private PatientMapper patientMapper;
 
     @Override
     public Patient createPatient(PatientDto dto) {
-        Patient patient = new Patient();
-        patient.setName(dto.fullname());
-        patient.setEmail(dto.email());
-        patient.setPhoneno(dto.phoneno());
-        patient.setDob(dto.dob());
-        patient.setAddress(dto.address());
+
+        //DTO to Patient Entity
+        Patient patient = patientMapper.toEntity(dto);
         patientRepository.save(patient);
+
+
+
+        //DTO to illness entity
+//        preExistingIllnessRepo.save(patientMapper.toIllnessEntity(dto));
+
+
+
         return patient;
     }
 

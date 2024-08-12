@@ -1,8 +1,10 @@
 package com.health_care.patients.dto;
 
+import com.health_care.patients.model.PreExistingIllness;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record PatientDto(
     long id,
@@ -12,10 +14,11 @@ public record PatientDto(
 
     @NotEmpty(message = "Email is required")
     @Email(message = "Email is required")
+    @Pattern(regexp = "^[a-zA-Z0-9._]+@[a-zA-Z0-9]+.[a-zA-Z]{2,}$" , message = "Email number is invalid")
     String email,
 
     @NotEmpty(message = "Phone number is required")
-    @Pattern(regexp = "^(\\+\\d{1,3}[- ]?)?\\d{10}$",message = "Phone number is invalid")
+    @Pattern(regexp = "^\\d{10}$",message = "Phone number is invalid")
     String phoneno,
 
     @NotEmpty(message = "Address is required")
@@ -23,7 +26,15 @@ public record PatientDto(
 
     @NotNull(message = "DOB is required")
     @Past(message = "Date Of birth must be past")
-    LocalDate dob
-){
 
-}
+    LocalDate dob,
+
+    @NotNull(message = "illness should not be empty")
+    String illness,
+
+    List<PreExistingIllness> preExistingIllnesses,
+
+    List<PreExistingIllness> s
+
+
+){}

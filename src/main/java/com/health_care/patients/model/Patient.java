@@ -7,6 +7,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,8 +25,6 @@ import java.time.LocalDate;
         @Index(columnList = "phoneno")
       } )
 
-
-
 public class Patient
 {
     @Id
@@ -36,10 +36,15 @@ public class Patient
     private String address;
     private LocalDate dob;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PreExistingIllness> preExistingIllnesses = new ArrayList<>();
+
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private LocalDate createdAt;
 
     @LastModifiedBy
     private LocalDate updatedAt;
+
+
 }
