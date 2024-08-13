@@ -32,9 +32,7 @@ public record PatientDto(
     @NotNull(message = "illness should not be empty")
     String illness,
 
-    List<PreExistingIllness> preExistingIllnesses,
-
-    List<PreExistingIllness> s
+    List<String> preExistingIllnesses
 
 
 ){}

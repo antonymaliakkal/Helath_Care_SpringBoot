@@ -5,10 +5,12 @@ import com.health_care.patients.dto.PatientDto;
 import com.health_care.patients.model.Patient;
 import com.health_care.patients.service.PatientServiceImpl;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,9 +23,9 @@ public class PatientController {
 
     // Create Patient
     @PostMapping
-    public ResponseEntity<String> createPatient(@Valid @RequestBody PatientDto dto){
-        patientServiceImpl.createPatient(dto);
-        return ResponseEntity.ok("User Created");
+    public ResponseEntity<Patient> createPatient(@Valid @RequestBody PatientDto dto){
+        Patient patient = patientServiceImpl.createPatient(dto);
+        return ResponseEntity.ok(patient);
     }
 
 
@@ -44,6 +46,17 @@ public class PatientController {
     public  ResponseEntity<Patient> updatePatient(@RequestBody PatientDto dto){
         Patient patient =  patientServiceImpl.updatePatientByPhoneNo(dto);
         return ResponseEntity.ok(patient);
+    }
+
+    @GetMapping("/ill/{id}")
+    public ResponseEntity<List<String>> getPatientIllness(@PathVariable Long id){
+        List<String> illness = patientServiceImpl.findPatientIllness(id);
+        return ResponseEntity.ok(illness);
+    }
+
+    @GetMapping("id/{id}")
+    public ResponseEntity<Patient> getPatientById(@PathVariable Long id){
+        return ResponseEntity.ok(patientServiceImpl.getPatientById(id));
     }
 
 

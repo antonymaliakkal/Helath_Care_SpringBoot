@@ -24,4 +24,8 @@ public class PreExistingIllness {
     public PreExistingIllness(PreExistingIllness preExistingIllness) {
         this.illness = preExistingIllness.getIllness();
     }
+
+    public PreExistingIllness(String illness){
+        this.illness = illness;
+    }
 }

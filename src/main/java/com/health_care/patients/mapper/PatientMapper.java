@@ -3,13 +3,22 @@ package com.health_care.patients.mapper;
 import com.health_care.patients.dto.PatientDto;
 import com.health_care.patients.model.Patient;
 import com.health_care.patients.model.PreExistingIllness;
+import com.health_care.patients.repository.PreExistingIllnessRepo;
 import org.hibernate.annotations.Comment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.*;
 import java.util.stream.Collectors;
+
+
+
 
 @Component
 public class PatientMapper {
+
+    @Autowired
+    PreExistingIllnessRepo preExistingIllnessRepo;
 
     public Patient toEntity(PatientDto dto){
         Patient patient = new Patient();
@@ -18,19 +27,14 @@ public class PatientMapper {
         patient.setPhoneno(dto.phoneno());
         patient.setDob(dto.dob());
         patient.setAddress(dto.address());
+        patient.setIllness(dto.illness());
 
-        System.out.println(dto.s());
-
-//        patient.setPreExistingIllnesses(dto.preExistingIllnesses().stream()
-//                .map((PreExistingIllness illness) -> toIllnessEntity(String.valueOf(illness))).
-//                collect(Collectors.toList()));
-
+        //Mapping list of illness to the preExistingIllness
         patient.setPreExistingIllnesses(
                 dto.preExistingIllnesses().stream()
-                        .map(PreExistingIllness::new)  // Converts each string in the list to a PreExistingIllness entity
+                        .map(illness -> toIllnessEntity(illness))
                         .collect(Collectors.toList())
         );
-
 
         return patient;
 
@@ -38,10 +42,17 @@ public class PatientMapper {
 
 
     public PreExistingIllness toIllnessEntity(String illness) {
-        PreExistingIllness preExistingIllness = new PreExistingIllness();
-        preExistingIllness.setIllness(illness);
-        System.out.println("preExistingIllness = " + illness);
-        return preExistingIllness;
+
+//        Optional<PreExistingIllness> existingIllness = preExistingIllnessRepo.findByIllness(illness);
+//        System.out.println(existingIllness);
+//        if(existingIllness.isPresent()){
+//            return existingIllness.get();
+//        }
+
+        PreExistingIllness newIllness = new PreExistingIllness();
+        newIllness.setIllness(illness);
+        return newIllness;
+
     }
 
 }
