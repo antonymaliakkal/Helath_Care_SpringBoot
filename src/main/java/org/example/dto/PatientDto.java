@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record PatientDto (
         long id,
-        String fullName,
+        String name,
         String phoneno
 ){}
